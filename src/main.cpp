@@ -1,30 +1,19 @@
 #include <iostream>
-#include "Order.h"
-#include "PriceLevel.h"
+#include "OrderBook.h"
 
-int main()
-{
-    PriceLevel level(100.5);
+int main() {
+    OrderBook book;
 
-    Order o1(1, 'B', 100.5, 10);
-    Order o2(2, 'B', 100.5, 20);
-    Order o3(3, 'B', 100.5, 30);
+    book.addOrder(Order(1, 'B', 100.50, 10));
+    book.addOrder(Order(2, 'B', 101.00, 5));
+    book.addOrder(Order(3, 'S', 102.25, 7));
 
-    level.addOrder(o1);
-    level.addOrder(o2);
-    level.addOrder(o3);
+    std::cout << "Best bid: " << book.bestBid() << std::endl;
+    std::cout << "Best ask: " << book.bestAsk() << std::endl;
 
-    std::cout << "Price: " << level.price << '\n';
-    std::cout << "Orders: " << level.orders.size() << '\n';
-    std::cout << "Total Quantity: " << level.totalQuantity << '\n';
+    book.cancelOrder(2);
 
-    std::cout << "\nFIFO Order:\n";
-
-    for (const auto &order : level.orders)
-    {
-        std::cout << order.id << " "
-                  << order.quantity << '\n';
-    }
+    std::cout << "Best bid after cancel: " << book.bestBid() << std::endl;
 
     return 0;
 }
